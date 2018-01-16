@@ -49,7 +49,7 @@ func (this *ZSetQuery) ZAddExpireIfExist(key string, members []redis.Z, expire t
 	if cmds[0].Err() != nil {
 		return 0, cmds[0].Err()
 	}
-	if cmds[0].(*redis.BoolCmd).Val() {
+	if cmds[0].(*redis.IntCmd).Val() == 1 {
 		if cmds[1].Err() == nil {
 			return cmds[1].(*redis.IntCmd).Val(), nil
 		} else {
@@ -74,7 +74,7 @@ func (this *ZSetQuery) ZCardIfExist(key string) (int64, error) {
 	if cmds[0].Err() != nil {
 		return 0, cmds[0].Err()
 	}
-	if cmds[0].(*redis.BoolCmd).Val() {
+	if cmds[0].(*redis.IntCmd).Val() == 1 {
 		// utils.Display("cmd1", cmds[1])
 		if cmds[1].Err() == nil {
 			return cmds[1].(*redis.IntCmd).Val(), nil

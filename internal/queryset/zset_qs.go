@@ -146,7 +146,7 @@ func (this *ZSetQuerySet) RangeByScoreDESC(min, max string, offset, count int64)
 }
 
 func (this *ZSetQuerySet) RangeASCWithScores(start, stop int64) ([]redis.Z, error) {
-	members, err := this.zsetQuery.ZRevRangeWithScoresIfExist(this.Key(), start, stop)
+	members, err := this.zsetQuery.ZRangeWithScoresIfExist(this.Key(), start, stop)
 	if err == nil {
 		return members, nil
 	}
@@ -159,7 +159,7 @@ func (this *ZSetQuerySet) RangeASCWithScores(start, stop int64) ([]redis.Z, erro
 }
 
 func (this *ZSetQuerySet) RangeDESCWithScores(start, stop int64) ([]redis.Z, error) {
-	members, err := this.zsetQuery.ZRangeWithScoresIfExist(this.Key(), start, stop)
+	members, err := this.zsetQuery.ZRevRangeWithScoresIfExist(this.Key(), start, stop)
 	if err == nil {
 		return members, nil
 	}
