@@ -5,7 +5,6 @@ import (
 
 	"github.com/go-redis/redis"
 
-	"github.com/szyhf/go-rich/internal"
 	"github.com/szyhf/go-rich/internal/log"
 	"github.com/szyhf/go-rich/internal/query"
 	richTypes "github.com/szyhf/go-rich/types"
@@ -40,7 +39,7 @@ func (this *ZSetQuerySet) Count() (int64, error) {
 	}
 
 	// 从用户提供的默认方法获取
-	return 0, internal.ErrorCanNotRebuild
+	return 0, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) Score(member string) (float64, error) {
@@ -53,7 +52,7 @@ func (this *ZSetQuerySet) Score(member string) (float64, error) {
 		return this.Score(member)
 	}
 
-	return 0, internal.ErrorCanNotRebuild
+	return 0, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) IsMember(member string) (bool, error) {
@@ -69,7 +68,7 @@ func (this *ZSetQuerySet) IsMember(member string) (bool, error) {
 	}
 
 	// 从用户提供的默认方法获取
-	return false, internal.ErrorCanNotRebuild
+	return false, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) RangeASC(start, stop int64) ([]string, error) {
@@ -85,7 +84,7 @@ func (this *ZSetQuerySet) RangeASC(start, stop int64) ([]string, error) {
 	}
 
 	// 使用用户的默认设置
-	return nil, internal.ErrorCanNotRebuild
+	return nil, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) RangeDESC(start, stop int64) ([]string, error) {
@@ -101,7 +100,7 @@ func (this *ZSetQuerySet) RangeDESC(start, stop int64) ([]string, error) {
 	}
 
 	// 使用用户的默认设置
-	return nil, internal.ErrorCanNotRebuild
+	return nil, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) Members() ([]string, error) {
@@ -124,7 +123,7 @@ func (this *ZSetQuerySet) RangeByScoreASC(min, max string, offset, count int64) 
 		return this.RangeByScoreASC(min, max, offset, count)
 	}
 
-	return nil, internal.ErrorCanNotRebuild
+	return nil, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) RangeByScoreDESC(min, max string, offset, count int64) ([]string, error) {
@@ -142,7 +141,7 @@ func (this *ZSetQuerySet) RangeByScoreDESC(min, max string, offset, count int64)
 		return this.RangeByScoreDESC(min, max, offset, count)
 	}
 
-	return nil, internal.ErrorCanNotRebuild
+	return nil, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) RangeASCWithScores(start, stop int64) ([]redis.Z, error) {
@@ -155,7 +154,7 @@ func (this *ZSetQuerySet) RangeASCWithScores(start, stop int64) ([]redis.Z, erro
 		return this.RangeASCWithScores(start, stop)
 	}
 
-	return nil, internal.ErrorCanNotRebuild
+	return nil, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) RangeDESCWithScores(start, stop int64) ([]redis.Z, error) {
@@ -168,7 +167,7 @@ func (this *ZSetQuerySet) RangeDESCWithScores(start, stop int64) ([]redis.Z, err
 		return this.RangeDESCWithScores(start, stop)
 	}
 
-	return nil, internal.ErrorCanNotRebuild
+	return nil, richTypes.ErrorCanNotRebuild
 }
 
 // ========= 写入接口 =========
@@ -191,7 +190,7 @@ func (this *ZSetQuerySet) AddExpire(member interface{}, score float64, expire ti
 		return this.AddExpire(member, score, expire)
 	}
 
-	return 0, internal.ErrorCanNotRebuild
+	return 0, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) Rem(member ...interface{}) error {
@@ -233,7 +232,7 @@ func (this *ZSetQuerySet) Rebuilding() error {
 		}
 		return cmd.Err()
 	}
-	return internal.ErrorCanNotRebuild
+	return richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) callRebuildFunc() ([]redis.Z, time.Duration) {

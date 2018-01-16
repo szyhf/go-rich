@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/go-redis/redis"
-	"github.com/szyhf/go-rich/internal"
 	"github.com/szyhf/go-rich/internal/log"
+	"github.com/szyhf/go-rich/types"
 )
 
 type ZSetQuery struct {
@@ -56,7 +56,7 @@ func (this *ZSetQuery) ZAddExpireIfExist(key string, members []redis.Z, expire t
 			return 0, cmds[1].Err()
 		}
 	} else {
-		return 0, internal.ErrorKeyNotExist
+		return 0, richTypes.ErrorKeyNotExist
 	}
 }
 
@@ -85,7 +85,7 @@ func (this *ZSetQuery) ZCardIfExist(key string) (int64, error) {
 			return 0, cmds[1].Err()
 		}
 	} else {
-		return 0, internal.ErrorKeyNotExist
+		return 0, richTypes.ErrorKeyNotExist
 	}
 }
 
@@ -111,7 +111,7 @@ func (this *ZSetQuery) ZRangeIfExist(key string, start, stop int64) ([]string, e
 			return nil, cmds[1].Err()
 		}
 	} else {
-		return nil, internal.ErrorKeyNotExist
+		return nil, richTypes.ErrorKeyNotExist
 	}
 }
 
@@ -137,7 +137,7 @@ func (this *ZSetQuery) ZRevRangeIfExist(key string, start, stop int64) ([]string
 			return nil, cmds[1].Err()
 		}
 	} else {
-		return nil, internal.ErrorKeyNotExist
+		return nil, richTypes.ErrorKeyNotExist
 	}
 }
 
@@ -162,7 +162,7 @@ func (this *ZSetQuery) ZRangeWithScoresIfExist(key string, start, stop int64) ([
 			return nil, cmds[1].Err()
 		}
 	} else {
-		return nil, internal.ErrorKeyNotExist
+		return nil, richTypes.ErrorKeyNotExist
 	}
 }
 
@@ -187,7 +187,7 @@ func (this *ZSetQuery) ZRevRangeWithScoresIfExist(key string, start, stop int64)
 			return nil, cmds[1].Err()
 		}
 	} else {
-		return nil, internal.ErrorKeyNotExist
+		return nil, richTypes.ErrorKeyNotExist
 	}
 }
 
@@ -213,7 +213,7 @@ func (this *ZSetQuery) ZRangeByScoreIfExist(key string, opt redis.ZRangeBy) ([]s
 			return nil, cmds[1].Err()
 		}
 	} else {
-		return nil, internal.ErrorKeyNotExist
+		return nil, richTypes.ErrorKeyNotExist
 	}
 }
 func (this *ZSetQuery) ZRevRangeByScoreIfExist(key string, opt redis.ZRangeBy) ([]string, error) {
@@ -237,7 +237,7 @@ func (this *ZSetQuery) ZRevRangeByScoreIfExist(key string, opt redis.ZRangeBy) (
 			return nil, cmds[1].Err()
 		}
 	} else {
-		return nil, internal.ErrorKeyNotExist
+		return nil, richTypes.ErrorKeyNotExist
 	}
 }
 
@@ -272,7 +272,7 @@ func (this *ZSetQuery) ZIsMemberIfExist(key string, member string) (bool, error)
 			return false, cmds[1].Err()
 		}
 	} else {
-		return false, internal.ErrorKeyNotExist
+		return false, richTypes.ErrorKeyNotExist
 	}
 }
 
@@ -296,9 +296,9 @@ func (this *ZSetQuery) ZScoreIfExist(key string, member string) (float64, error)
 			// member存在
 			return cmds[1].(*redis.FloatCmd).Val(), nil
 		} else {
-			return 0, internal.ErrorMemberNotExist
+			return 0, richTypes.ErrorMemberNotExist
 		}
 	} else {
-		return 0, internal.ErrorKeyNotExist
+		return 0, richTypes.ErrorKeyNotExist
 	}
 }

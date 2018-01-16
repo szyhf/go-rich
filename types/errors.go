@@ -1,4 +1,4 @@
-package internal
+package richTypes
 
 import (
 	"errors"

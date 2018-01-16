@@ -5,10 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/szyhf/go-rich"
-
 	"github.com/go-redis/redis"
 	. "github.com/smartystreets/goconvey/convey"
+	"github.com/szyhf/go-rich"
 )
 
 func TestZSet(t *testing.T) {

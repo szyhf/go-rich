@@ -1,12 +1,12 @@
 package rich
 
 import (
-	"github.com/szyhf/go-rich/internal"
+	"github.com/szyhf/go-rich/types"
 )
 
 var (
-	ErrorKeyNotExist    = internal.ErrorKeyNotExist
-	ErrorCanNotRebuild  = internal.ErrorCanNotRebuild
-	ErrorMemberNotExist = internal.ErrorMemberNotExist
-	ErrorProtection     = internal.ErrorProtection
+	ErrorKeyNotExist    = richTypes.ErrorKeyNotExist
+	ErrorCanNotRebuild  = richTypes.ErrorCanNotRebuild
+	ErrorMemberNotExist = richTypes.ErrorMemberNotExist
+	ErrorProtection     = richTypes.ErrorProtection
 )
