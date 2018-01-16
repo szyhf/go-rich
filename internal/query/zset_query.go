@@ -101,7 +101,7 @@ func (this *ZSetQuery) ZRangeIfExist(key string, start, stop int64) ([]string, e
 	if cmds[0].Err() != nil {
 		return nil, cmds[0].Err()
 	}
-	if cmds[0].(*redis.BoolCmd).Val() {
+	if cmds[0].(*redis.IntCmd).Val() == 1 {
 		if cmds[1].Err() == nil {
 			return cmds[1].(*redis.StringSliceCmd).Val(), nil
 		} else if strings.HasPrefix(cmds[1].Err().Error(), "WRONGTYPE") {
@@ -127,7 +127,7 @@ func (this *ZSetQuery) ZRevRangeIfExist(key string, start, stop int64) ([]string
 	if cmds[0].Err() != nil {
 		return nil, cmds[0].Err()
 	}
-	if cmds[0].(*redis.BoolCmd).Val() {
+	if cmds[0].(*redis.IntCmd).Val() == 1 {
 		if cmds[1].Err() == nil {
 			return cmds[1].(*redis.StringSliceCmd).Val(), nil
 		} else if strings.HasPrefix(cmds[1].Err().Error(), "WRONGTYPE") {
@@ -152,7 +152,7 @@ func (this *ZSetQuery) ZRangeWithScoresIfExist(key string, start, stop int64) ([
 	if cmds[0].Err() != nil {
 		return nil, cmds[0].Err()
 	}
-	if cmds[0].(*redis.BoolCmd).Val() {
+	if cmds[0].(*redis.IntCmd).Val() == 1 {
 		if cmds[1].Err() == nil {
 			return cmds[1].(*redis.ZSliceCmd).Val(), nil
 		} else if strings.HasPrefix(cmds[1].Err().Error(), "WRONGTYPE") {
@@ -203,7 +203,7 @@ func (this *ZSetQuery) ZRangeByScoreIfExist(key string, opt redis.ZRangeBy) ([]s
 	if cmds[0].Err() != nil {
 		return nil, cmds[0].Err()
 	}
-	if cmds[0].(*redis.BoolCmd).Val() {
+	if cmds[0].(*redis.IntCmd).Val() == 1 {
 		if cmds[1].Err() == nil {
 			return cmds[1].(*redis.StringSliceCmd).Val(), nil
 		} else if strings.HasPrefix(cmds[1].Err().Error(), "WRONGTYPE") {
@@ -227,7 +227,7 @@ func (this *ZSetQuery) ZRevRangeByScoreIfExist(key string, opt redis.ZRangeBy) (
 	if cmds[0].Err() != nil {
 		return nil, cmds[0].Err()
 	}
-	if cmds[0].(*redis.BoolCmd).Val() {
+	if cmds[0].(*redis.IntCmd).Val() == 1 {
 		if cmds[1].Err() == nil {
 			return cmds[1].(*redis.StringSliceCmd).Val(), nil
 		} else if strings.HasPrefix(cmds[1].Err().Error(), "WRONGTYPE") {
@@ -256,7 +256,7 @@ func (this *ZSetQuery) ZIsMemberIfExist(key string, member string) (bool, error)
 	if cmds[0].Err() != nil {
 		return false, cmds[0].Err()
 	}
-	if cmds[0].(*redis.BoolCmd).Val() {
+	if cmds[0].(*redis.IntCmd).Val() == 1 {
 		// 如果member不存在，则会返回error=redis.Nil
 		if cmds[1].Err() == nil {
 			// member存在
@@ -290,7 +290,7 @@ func (this *ZSetQuery) ZScoreIfExist(key string, member string) (float64, error)
 	if cmds[0].Err() != nil {
 		return 0, cmds[0].Err()
 	}
-	if cmds[0].(*redis.BoolCmd).Val() {
+	if cmds[0].(*redis.IntCmd).Val() == 1 {
 		// 如果member不存在，则会返回error=redis.Nil
 		if cmds[1].Err() == nil {
 			// member存在
