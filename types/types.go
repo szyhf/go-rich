@@ -8,7 +8,7 @@ import (
 
 type Richer interface {
 	// 构造String查询构造器
-	// QueryString(i interface{}) StringQuerySeter
+	QueryString(i interface{}) StringQuerySeter
 	// 构造ZSet查询构造器
 	QueryZSet(i interface{}) ZSetQuerySeter
 	// 构造Set查询构造器

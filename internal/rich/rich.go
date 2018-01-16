@@ -52,6 +52,15 @@ func (this *rich) QueryZSet(i interface{}) richTypes.ZSetQuerySeter {
 	}
 }
 
+func (this *rich) QueryString(i interface{}) richTypes.StringQuerySeter {
+	switch m := i.(type) {
+	case string:
+		return queryset.NewString(m, this.query)
+	default:
+		panic("Not imp")
+	}
+}
+
 func (this *rich) Querier() richTypes.Querier {
 	return this.query
 }
