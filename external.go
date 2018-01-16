@@ -1,8 +1,6 @@
 package rich
 
 import (
-	"io"
-
 	"github.com/go-redis/redis"
 	"github.com/szyhf/go-rich/internal/log"
 	"github.com/szyhf/go-rich/internal/rich"
@@ -19,6 +17,8 @@ func NewRicher() Richer {
 
 type Richer = richTypes.Richer
 
-func SetLogger(l io.Writer) {
-	log.SetLogger(l)
+type LogFunc = log.LogFunc
+
+func SetLogger(l LogFunc) {
+	log.Logf = l
 }
