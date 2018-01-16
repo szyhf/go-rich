@@ -51,3 +51,7 @@ func (this *rich) QueryZSet(i interface{}) richTypes.ZSetQuerySeter {
 		panic("Not imp")
 	}
 }
+
+func (this *rich) Querier() richTypes.Querier {
+	return this.query
+}

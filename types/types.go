@@ -19,7 +19,7 @@ type Richer interface {
 	// 设置使用的Redis链接
 	Using(alias string) error
 	// 当前生效的查询器
-	// Querier() Querier
+	Querier() Querier
 }
 
 type QuerySeter interface {
