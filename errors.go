@@ -6,7 +6,7 @@ import (
 
 var (
 	ErrorKeyNotExist    = richTypes.ErrorKeyNotExist
-	ErrorCanNotRebuild  = richTypes.ErrorCanNotRebuild
+	ErrorRebuildNil     = richTypes.ErrorRebuildNil
 	ErrorMemberNotExist = richTypes.ErrorMemberNotExist
 	ErrorProtection     = richTypes.ErrorProtection
 )

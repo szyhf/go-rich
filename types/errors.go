@@ -6,7 +6,7 @@ import (
 
 var (
 	ErrorKeyNotExist    = errors.New("key not exist")
-	ErrorCanNotRebuild  = errors.New("rebuild failed")
+	ErrorRebuildNil     = errors.New("rebuild nil.")
 	ErrorMemberNotExist = errors.New("member not exist")
 	ErrorProtection     = errors.New("key is protected")
 	ErrorDeadLoop       = errors.New("rebuilding break for dead loop.")

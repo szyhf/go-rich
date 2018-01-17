@@ -235,7 +235,7 @@ func (this *ZSetQuerySet) Rebuilding() error {
 		}
 		return cmd.Err()
 	}
-	return richTypes.ErrorCanNotRebuild
+	return richTypes.ErrorRebuildNil
 }
 
 func (this *ZSetQuerySet) callRebuildFunc() ([]redis.Z, time.Duration) {

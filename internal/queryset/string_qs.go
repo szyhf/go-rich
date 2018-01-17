@@ -44,9 +44,7 @@ func (this *StringQuerySet) Scan(value interface{}) error {
 	// 尝试直接从缓存获取
 	cmd := this.stringQuery.Get(this.Key())
 	if cmd.Err() == nil {
-		if cmd.Val() != "" {
-			return cmd.Scan(value)
-		}
+		return cmd.Scan(value)
 	}
 
 	if err := this.rebuildingProcess(this); err == nil {
@@ -112,7 +110,7 @@ func (this *StringQuerySet) Rebuilding() error {
 		cmd := this.stringQuery.Set(this.Key(), value, expire)
 		return cmd.Err()
 	}
-	return richTypes.ErrorCanNotRebuild
+	return richTypes.ErrorRebuildNil
 }
 
 func (this *StringQuerySet) callRebuildFunc() (interface{}, time.Duration) {
