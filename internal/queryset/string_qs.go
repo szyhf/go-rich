@@ -1,6 +1,7 @@
 package queryset
 
 import (
+	"context"
 	"time"
 
 	"github.com/szyhf/go-rich/internal/log"
@@ -10,8 +11,9 @@ import (
 
 type StringQuerySet struct {
 	*querySet
+	ctx         context.Context
 	stringQuery *query.StringQuery
-	rebuildFunc func() (interface{}, time.Duration)
+	rebuildFunc func(ctx context.Context) (interface{}, time.Duration)
 }
 
 func NewString(key string, q *query.Query) *StringQuerySet {
@@ -42,7 +44,9 @@ func (this *StringQuerySet) Scan(value interface{}) error {
 	// 尝试直接从缓存获取
 	cmd := this.stringQuery.Get(this.Key())
 	if cmd.Err() == nil {
-		return cmd.Scan(value)
+		if cmd.Val() != "" {
+			return cmd.Scan(value)
+		}
 	}
 
 	if err := this.rebuildingProcess(this); err == nil {
@@ -89,8 +93,13 @@ func (this StringQuerySet) Protect(expire time.Duration) richTypes.StringQuerySe
 }
 
 // 重构String的方法
-func (this StringQuerySet) SetRebuildFunc(f func() (interface{}, time.Duration)) richTypes.StringQuerySeter {
+func (this StringQuerySet) SetRebuildFunc(f func(ctx context.Context) (interface{}, time.Duration)) richTypes.StringQuerySeter {
 	this.rebuildFunc = f
+	return &this
+}
+
+func (this StringQuerySet) WithContext(ctx context.Context) richTypes.StringQuerySeter {
+	this.ctx = ctx
 	return &this
 }
 
@@ -110,5 +119,5 @@ func (this *StringQuerySet) callRebuildFunc() (interface{}, time.Duration) {
 	if this.rebuildFunc == nil {
 		return nil, -1
 	}
-	return this.rebuildFunc()
+	return this.rebuildFunc(this.ctx)
 }

@@ -1,6 +1,7 @@
 package queryset
 
 import (
+	"context"
 	"time"
 
 	"github.com/go-redis/redis"
@@ -12,8 +13,9 @@ import (
 
 type ZSetQuerySet struct {
 	*querySet
+	ctx         context.Context
 	zsetQuery   *query.ZSetQuery
-	rebuildFunc func() ([]redis.Z, time.Duration)
+	rebuildFunc func(ctx context.Context) ([]redis.Z, time.Duration)
 }
 
 func NewZSet(key string, q *query.Query) *ZSetQuerySet {
@@ -204,8 +206,13 @@ func (this ZSetQuerySet) Protect(expire time.Duration) richTypes.ZSetQuerySeter 
 	return &this
 }
 
-func (this ZSetQuerySet) SetRebuildFunc(rebuildFunc func() ([]redis.Z, time.Duration)) richTypes.ZSetQuerySeter {
+func (this ZSetQuerySet) SetRebuildFunc(rebuildFunc func(context.Context) ([]redis.Z, time.Duration)) richTypes.ZSetQuerySeter {
 	this.rebuildFunc = rebuildFunc
+	return &this
+}
+
+func (this ZSetQuerySet) WithContext(ctx context.Context) richTypes.ZSetQuerySeter {
+	this.ctx = ctx
 	return &this
 }
 
@@ -235,5 +242,5 @@ func (this *ZSetQuerySet) callRebuildFunc() ([]redis.Z, time.Duration) {
 	if this.rebuildFunc == nil {
 		return []redis.Z{}, -1
 	}
-	return this.rebuildFunc()
+	return this.rebuildFunc(this.ctx)
 }

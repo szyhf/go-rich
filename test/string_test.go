@@ -1,6 +1,7 @@
 package test
 
 import (
+	"context"
 	"encoding/json"
 	"reflect"
 	"testing"
@@ -35,7 +36,7 @@ func TestString(t *testing.T) {
 	Convey("Init", t, func() {
 		richer := getRicher()
 		sqs := richer.QueryString("HelloString")
-		sqs = sqs.SetRebuildFunc(func() (interface{}, time.Duration) {
+		sqs = sqs.SetRebuildFunc(func(ctx context.Context) (interface{}, time.Duration) {
 			return &sData, time.Hour
 		})
 

@@ -1,6 +1,7 @@
 package richTypes
 
 import (
+	"context"
 	"time"
 
 	"github.com/go-redis/redis"
@@ -46,7 +47,9 @@ type StringQuerySeter interface {
 	// 保护数据库
 	Protect(time.Duration) StringQuerySeter
 	// 重构String的方法
-	SetRebuildFunc(func() (interface{}, time.Duration)) StringQuerySeter
+	SetRebuildFunc(func(ctx context.Context) (interface{}, time.Duration)) StringQuerySeter
+	// 传入Ctx
+	WithContext(ctx context.Context) StringQuerySeter
 
 	// ======== 读取接口 ========
 	// 获取键值
@@ -69,7 +72,9 @@ type ZSetQuerySeter interface {
 	// 保护数据库
 	Protect(expire time.Duration) ZSetQuerySeter
 	// 重构ZSet的方法
-	SetRebuildFunc(rebuildFunc func() ([]redis.Z, time.Duration)) ZSetQuerySeter
+	SetRebuildFunc(rebuildFunc func(ctx context.Context) ([]redis.Z, time.Duration)) ZSetQuerySeter
+	// 传入Ctx
+	WithContext(ctx context.Context) ZSetQuerySeter
 
 	// ========= 查询接口 =========
 	// 判断目标成员是否是榜单的成员（按value判断）

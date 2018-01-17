@@ -1,6 +1,7 @@
 package test
 
 import (
+	"context"
 	"sort"
 	"testing"
 	"time"
@@ -37,7 +38,7 @@ func TestZSet(t *testing.T) {
 		})
 		_ = zData
 		_ = zDESCData
-		zqs = zqs.SetRebuildFunc(func() ([]redis.Z, time.Duration) {
+		zqs = zqs.SetRebuildFunc(func(ctx context.Context) ([]redis.Z, time.Duration) {
 			return zData, time.Hour
 		})
 
