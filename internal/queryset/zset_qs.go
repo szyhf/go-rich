@@ -33,13 +33,12 @@ func (this *ZSetQuerySet) Count() (int64, error) {
 	}
 
 	// 重建缓存
-	if this.rebuildingProcess(this) {
+	if err := this.rebuildingProcess(this); err == nil {
 		// 重建成功则重新获取
 		return this.Count()
+	} else {
+		return 0, err
 	}
-
-	// 从用户提供的默认方法获取
-	return 0, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) Score(member string) (float64, error) {
@@ -48,11 +47,11 @@ func (this *ZSetQuerySet) Score(member string) (float64, error) {
 		return score, nil
 	}
 
-	if this.rebuildingProcess(this) {
+	if err := this.rebuildingProcess(this); err == nil {
 		return this.Score(member)
+	} else {
+		return 0, err
 	}
-
-	return 0, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) IsMember(member string) (bool, error) {
@@ -63,12 +62,11 @@ func (this *ZSetQuerySet) IsMember(member string) (bool, error) {
 	}
 
 	// 重建缓存
-	if this.rebuildingProcess(this) {
+	if err := this.rebuildingProcess(this); err == nil {
 		return this.IsMember(member)
+	} else {
+		return false, err
 	}
-
-	// 从用户提供的默认方法获取
-	return false, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) RangeASC(start, stop int64) ([]string, error) {
@@ -79,12 +77,11 @@ func (this *ZSetQuerySet) RangeASC(start, stop int64) ([]string, error) {
 	}
 
 	// 缓存获取失败尝试重构缓存
-	if this.rebuildingProcess(this) {
+	if err := this.rebuildingProcess(this); err == nil {
 		return this.RangeASC(start, stop)
+	} else {
+		return nil, err
 	}
-
-	// 使用用户的默认设置
-	return nil, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) RangeDESC(start, stop int64) ([]string, error) {
@@ -95,12 +92,11 @@ func (this *ZSetQuerySet) RangeDESC(start, stop int64) ([]string, error) {
 	}
 
 	// 缓存获取失败尝试重构缓存
-	if this.rebuildingProcess(this) {
+	if err := this.rebuildingProcess(this); err == nil {
 		return this.RangeDESC(start, stop)
+	} else {
+		return nil, err
 	}
-
-	// 使用用户的默认设置
-	return nil, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) Members() ([]string, error) {
@@ -119,11 +115,11 @@ func (this *ZSetQuerySet) RangeByScoreASC(min, max string, offset, count int64) 
 		return members, nil
 	}
 
-	if this.rebuildingProcess(this) {
+	if err := this.rebuildingProcess(this); err == nil {
 		return this.RangeByScoreASC(min, max, offset, count)
+	} else {
+		return nil, err
 	}
-
-	return nil, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) RangeByScoreDESC(min, max string, offset, count int64) ([]string, error) {
@@ -137,11 +133,11 @@ func (this *ZSetQuerySet) RangeByScoreDESC(min, max string, offset, count int64)
 		return members, nil
 	}
 
-	if this.rebuildingProcess(this) {
+	if err := this.rebuildingProcess(this); err == nil {
 		return this.RangeByScoreDESC(min, max, offset, count)
+	} else {
+		return nil, err
 	}
-
-	return nil, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) RangeASCWithScores(start, stop int64) ([]redis.Z, error) {
@@ -150,11 +146,11 @@ func (this *ZSetQuerySet) RangeASCWithScores(start, stop int64) ([]redis.Z, erro
 		return members, nil
 	}
 
-	if this.rebuildingProcess(this) {
+	if err := this.rebuildingProcess(this); err == nil {
 		return this.RangeASCWithScores(start, stop)
+	} else {
+		return nil, err
 	}
-
-	return nil, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) RangeDESCWithScores(start, stop int64) ([]redis.Z, error) {
@@ -163,11 +159,11 @@ func (this *ZSetQuerySet) RangeDESCWithScores(start, stop int64) ([]redis.Z, err
 		return members, nil
 	}
 
-	if this.rebuildingProcess(this) {
+	if err := this.rebuildingProcess(this); err == nil {
 		return this.RangeDESCWithScores(start, stop)
+	} else {
+		return nil, err
 	}
-
-	return nil, richTypes.ErrorCanNotRebuild
 }
 
 // ========= 写入接口 =========
@@ -186,11 +182,11 @@ func (this *ZSetQuerySet) AddExpire(member interface{}, score float64, expire ti
 		return num, nil
 	}
 
-	if this.rebuildingProcess(this) {
+	if err := this.rebuildingProcess(this); err == nil {
 		return this.AddExpire(member, score, expire)
+	} else {
+		return 0, err
 	}
-
-	return 0, richTypes.ErrorCanNotRebuild
 }
 
 func (this *ZSetQuerySet) Rem(member ...interface{}) error {

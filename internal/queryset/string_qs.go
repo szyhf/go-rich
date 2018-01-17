@@ -31,12 +31,11 @@ func (this *StringQuerySet) Get() (string, error) {
 	}
 
 	// 尝试重建缓存
-	if this.rebuildingProcess(this) {
+	if err := this.rebuildingProcess(this); err == nil {
 		return this.Get()
+	} else {
+		return "", err
 	}
-
-	// 尝试从默认方法获取
-	return "", richTypes.ErrorCanNotRebuild
 }
 
 func (this *StringQuerySet) Scan(value interface{}) error {
@@ -46,11 +45,11 @@ func (this *StringQuerySet) Scan(value interface{}) error {
 		return cmd.Scan(value)
 	}
 
-	if this.rebuildingProcess(this) {
+	if err := this.rebuildingProcess(this); err == nil {
 		return this.Scan(value)
+	} else {
+		return err
 	}
-
-	return richTypes.ErrorCanNotRebuild
 }
 
 // ========= 写入接口 =========
@@ -74,11 +73,11 @@ func (this *StringQuerySet) IncrBy(incr int64) (int64, error) {
 		return val, nil
 	}
 
-	if this.rebuildingProcess(this) {
+	if err := this.rebuildingProcess(this); err == nil {
 		return this.IncrBy(incr)
+	} else {
+		return 0, err
 	}
-
-	return 0, richTypes.ErrorCanNotRebuild
 }
 
 // ========= 连贯操作接口 =========

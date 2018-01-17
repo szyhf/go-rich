@@ -71,11 +71,10 @@ func (this *querySet) tryProtectDB(key string) bool {
 	return cmd.Err() == nil
 }
 
-func (this *querySet) rebuildingProcess(qs richTypes.QuerySeter) bool {
+func (this *querySet) rebuildingProcess(qs richTypes.QuerySeter) error {
 	if this.isRebuilding {
-		log.Warn("Rebuilding break for dead loop.")
 		// 防止重构缓存失败陷入死循环
-		return false
+		return richTypes.ErrorDeadLoop
 	}
 
 	// 获取缓存重建锁
@@ -87,9 +86,10 @@ func (this *querySet) rebuildingProcess(qs richTypes.QuerySeter) bool {
 			if this.isProtectDB {
 				this.tryProtectDB(this.Key())
 			}
+			return err
 		} else {
-			return true
+			return nil
 		}
 	}
-	return false
+	return richTypes.ErrorWaitLock
 }
