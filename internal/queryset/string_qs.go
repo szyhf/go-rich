@@ -105,7 +105,7 @@ func (this StringQuerySet) WithContext(ctx context.Context) richTypes.StringQuer
 
 func (this *StringQuerySet) Rebuilding() error {
 	// 重建缓存
-	log.Notice("StringQuerySet.rebuild(", this.Key(), ")")
+	log.Debug("StringQuerySet.rebuild(", this.Key(), ")")
 	if value, expire := this.callRebuildFunc(); value != nil {
 		cmd := this.stringQuery.Set(this.Key(), value, expire)
 		return cmd.Err()

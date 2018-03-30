@@ -17,7 +17,7 @@ func NewStringQuery(q *Query) *StringQuery {
 }
 
 func (r *StringQuery) IncrByIfExist(key string, incr int64) (int64, error) {
-	log.Notice("[Redis IncrByIfExist]", key)
+	log.Debug("[Redis IncrByIfExist]", key)
 	cmds, err := r.ExecPipeline(func(pipe redis.Pipeliner) error {
 		pipe.Exists(key)
 		pipe.IncrBy(key, incr)

@@ -224,7 +224,7 @@ func (this ZSetQuerySet) Querier() richTypes.Querier {
 
 func (this *ZSetQuerySet) Rebuilding() error {
 	// 重建缓存
-	log.Notice("zsetQuerySet.rebuild(", this.Key(), ")")
+	log.Debug("zsetQuerySet.rebuild(", this.Key(), ")")
 	// 见 issue#1，移除可能存在的保护键
 	cmd := this.Querier().Del(this.Key())
 

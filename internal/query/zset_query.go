@@ -23,7 +23,7 @@ func NewZSetQuery(q *Query) *ZSetQuery {
 
 // 使用pipline实现的带过期时间的ZAdd
 func (this *ZSetQuery) ZAddExpire(key string, members []redis.Z, expire time.Duration) (int64, error) {
-	log.Notice("[Redis ZAddExpire]", key, members, expire)
+	log.Debug("[Redis ZAddExpire]", key, members, expire)
 	cmds, err := this.ExecPipeline(func(pipe redis.Pipeliner) error {
 		pipe.ZAdd(key, members...)
 		pipe.Expire(key, expire)
@@ -38,7 +38,7 @@ func (this *ZSetQuery) ZAddExpire(key string, members []redis.Z, expire time.Dur
 
 // 使用pipline实现的带过期时间的ZAdd（仅当key存在时添加）
 func (this *ZSetQuery) ZAddExpireIfExist(key string, members []redis.Z, expire time.Duration) (int64, error) {
-	log.Notice("[Redis ZAddExpireIfExist]", key, members, expire)
+	log.Debug("[Redis ZAddExpireIfExist]", key, members, expire)
 	cmds, _ := this.ExecPipeline(func(pipe redis.Pipeliner) error {
 		pipe.Exists(key)
 		pipe.ZAdd(key, members...)
@@ -64,7 +64,7 @@ func (this *ZSetQuery) ZAddExpireIfExist(key string, members []redis.Z, expire t
 
 // 使用Pipline实现的优先检查存在性的ZCard
 func (this *ZSetQuery) ZCardIfExist(key string) (int64, error) {
-	log.Notice("[Redis ZCardIfExist]", key)
+	log.Debug("[Redis ZCardIfExist]", key)
 	cmds, _ := this.ExecPipeline(func(pipe redis.Pipeliner) error {
 		pipe.Exists(key)
 		pipe.ZCard(key)
@@ -91,7 +91,7 @@ func (this *ZSetQuery) ZCardIfExist(key string) (int64, error) {
 
 // 判定Key是否存在，如果存在则返回指定排序区间的成员（正序）
 func (this *ZSetQuery) ZRangeIfExist(key string, start, stop int64) ([]string, error) {
-	log.Notice("[Redis ZRangeIfExist]", key, start, stop)
+	log.Debug("[Redis ZRangeIfExist]", key, start, stop)
 	cmds, _ := this.ExecPipeline(func(pipe redis.Pipeliner) error {
 		pipe.Exists(key)
 		pipe.ZRange(key, start, stop)
@@ -117,7 +117,7 @@ func (this *ZSetQuery) ZRangeIfExist(key string, start, stop int64) ([]string, e
 
 // 判定Key是否存在，如果存在则返回指定排序区间的成员（逆序）
 func (this *ZSetQuery) ZRevRangeIfExist(key string, start, stop int64) ([]string, error) {
-	log.Notice("[Redis ZRevRangeIfExist]", key, start, stop)
+	log.Debug("[Redis ZRevRangeIfExist]", key, start, stop)
 	cmds, _ := this.ExecPipeline(func(pipe redis.Pipeliner) error {
 		pipe.Exists(key)
 		pipe.ZRevRange(key, start, stop)
@@ -142,7 +142,7 @@ func (this *ZSetQuery) ZRevRangeIfExist(key string, start, stop int64) ([]string
 }
 
 func (this *ZSetQuery) ZRangeWithScoresIfExist(key string, start, stop int64) ([]redis.Z, error) {
-	log.Notice("[Redis ZRangeWithScoresIfExist]", key, start, stop)
+	log.Debug("[Redis ZRangeWithScoresIfExist]", key, start, stop)
 	cmds, _ := this.ExecPipeline(func(pipe redis.Pipeliner) error {
 		pipe.Exists(key)
 		pipe.ZRangeWithScores(key, start, stop)
@@ -167,7 +167,7 @@ func (this *ZSetQuery) ZRangeWithScoresIfExist(key string, start, stop int64) ([
 }
 
 func (this *ZSetQuery) ZRevRangeWithScoresIfExist(key string, start, stop int64) ([]redis.Z, error) {
-	log.Notice("[Redis ZRevRangeWithScoresIfExist]", key, start, stop)
+	log.Debug("[Redis ZRevRangeWithScoresIfExist]", key, start, stop)
 	cmds, _ := this.ExecPipeline(func(pipe redis.Pipeliner) error {
 		pipe.Exists(key)
 		pipe.ZRevRangeWithScores(key, start, stop)
@@ -192,7 +192,7 @@ func (this *ZSetQuery) ZRevRangeWithScoresIfExist(key string, start, stop int64)
 }
 
 func (this *ZSetQuery) ZRangeByScoreIfExist(key string, opt redis.ZRangeBy) ([]string, error) {
-	log.Notice("[Redis ZRangeByScoreIfExist]", key, opt)
+	log.Debug("[Redis ZRangeByScoreIfExist]", key, opt)
 
 	cmds, _ := this.ExecPipeline(func(pipe redis.Pipeliner) error {
 		pipe.Exists(key)
@@ -217,7 +217,7 @@ func (this *ZSetQuery) ZRangeByScoreIfExist(key string, opt redis.ZRangeBy) ([]s
 	}
 }
 func (this *ZSetQuery) ZRevRangeByScoreIfExist(key string, opt redis.ZRangeBy) ([]string, error) {
-	log.Notice("[Redis ZRevRangeByScoreIfExist]", key, opt)
+	log.Debug("[Redis ZRevRangeByScoreIfExist]", key, opt)
 	cmds, _ := this.ExecPipeline(func(pipe redis.Pipeliner) error {
 		pipe.Exists(key)
 		pipe.ZRevRangeByScore(key, opt)
@@ -243,7 +243,7 @@ func (this *ZSetQuery) ZRevRangeByScoreIfExist(key string, opt redis.ZRangeBy) (
 
 // 判定Key是否存在，如果存在则检查member是否在集合中
 func (this *ZSetQuery) ZIsMemberIfExist(key string, member string) (bool, error) {
-	log.Notice("[Redis ZIsMemberIfExist]", key, member)
+	log.Debug("[Redis ZIsMemberIfExist]", key, member)
 	// 通过ZRank间接实现存在性判断
 	// ZScore返回member在ZSet中的Index
 	cmds, _ := this.ExecPipeline(func(pipe redis.Pipeliner) error {
@@ -277,7 +277,7 @@ func (this *ZSetQuery) ZIsMemberIfExist(key string, member string) (bool, error)
 }
 
 func (this *ZSetQuery) ZScoreIfExist(key string, member string) (float64, error) {
-	log.Notice("[Redis ZIsMemberIfExist]", key, member)
+	log.Debug("[Redis ZIsMemberIfExist]", key, member)
 	// 通过ZRank间接实现存在性判断
 	// ZScore返回member在ZSet中的Index
 	cmds, _ := this.ExecPipeline(func(pipe redis.Pipeliner) error {

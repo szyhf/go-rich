@@ -1,4 +1,4 @@
 package: github.com/szyhf/go-rich
 import:
 - package: github.com/go-redis/redis
-  version: v6.8.0
+  version: v6.10.2

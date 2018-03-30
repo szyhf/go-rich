@@ -44,7 +44,7 @@ func (this *querySet) Querier() richTypes.Querier {
 }
 
 func (this *querySet) tryGetRebuildLock(key string) bool {
-	log.Notice("tryGetRebuildLock:", key)
+	log.Debug("tryGetRebuildLock:", key)
 	// 通过setNX设置锁，同设置超时，防止del失败
 	if cmd := this.Querier().SetNX(key+":mutex", "", 30*time.Second); cmd.Err() == nil {
 		return cmd.Val()
@@ -55,7 +55,7 @@ func (this *querySet) tryGetRebuildLock(key string) bool {
 }
 
 func (this *querySet) tryReleaseRebuildLock(key string) bool {
-	log.Notice("tryReleaseRebuildLock:", key)
+	log.Debug("tryReleaseRebuildLock:", key)
 	if cmd := this.Querier().Del(key + ":mutex"); cmd.Err() == nil {
 		return true
 	} else {
@@ -67,7 +67,7 @@ func (this *querySet) tryReleaseRebuildLock(key string) bool {
 
 func (this *querySet) tryProtectDB(key string) bool {
 	cmd := this.Querier().Set(key, nil, this.protectExpire)
-	log.Notice("tryProtectDB:", key, "for", this.protectExpire, "seconds.")
+	log.Debug("tryProtectDB:", key, "for", this.protectExpire, "seconds.")
 	return cmd.Err() == nil
 }
 
