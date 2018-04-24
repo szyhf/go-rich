@@ -138,7 +138,7 @@ type SetQuerySeter interface {
 }
 
 type Querier interface {
-	redis.Cmdable
+	redis.UniversalClient
 }
 
 type SetQuerier interface {
