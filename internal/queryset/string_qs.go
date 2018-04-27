@@ -61,6 +61,15 @@ func (this *StringQuerySet) Set(value interface{}, expire time.Duration) error {
 	return cmd.Err()
 }
 
+// 尝试写入当前Key，如果key存在则不写入
+func (this *StringQuerySet) SetNX(value interface{}, expire time.Duration) (bool, error) {
+	cmd := this.stringQuery.SetNX(this.Key(), value, expire)
+	if cmd.Err() != nil {
+		return false, cmd.Err()
+	}
+	return cmd.Val(), nil
+}
+
 // 移除当前key
 func (this *StringQuerySet) Del() error {
 	cmd := this.stringQuery.Del(this.Key())

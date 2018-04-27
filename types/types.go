@@ -60,6 +60,8 @@ type StringQuerySeter interface {
 	// ========= 写入接口 =========
 	// 设置值（如果为实例，则调用encoding/binary接口）
 	Set(interface{}, time.Duration) error
+	// 尝试写入当前Key，如果key存在则不写入
+	SetNX(interface{}, time.Duration) (bool, error)
 	// 移除当前key
 	Del() error
 	// 增加指定的数值
