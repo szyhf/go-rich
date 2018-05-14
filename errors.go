@@ -5,6 +5,8 @@ import (
 )
 
 var (
+	ErrorWaitLock       = richTypes.ErrorWaitLock
+	ErrorDeadLoop       = richTypes.ErrorDeadLoop
 	ErrorKeyNotExist    = richTypes.ErrorKeyNotExist
 	ErrorRebuildNil     = richTypes.ErrorRebuildNil
 	ErrorMemberNotExist = richTypes.ErrorMemberNotExist

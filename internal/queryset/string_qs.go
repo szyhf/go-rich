@@ -44,6 +44,10 @@ func (this *StringQuerySet) Scan(value interface{}) error {
 	// 尝试直接从缓存获取
 	cmd := this.stringQuery.Get(this.Key())
 	if cmd.Err() == nil {
+		if len(cmd.Val()) == 0 && this.isProtectDB {
+			// 处于保护状态
+			return richTypes.ErrorProtection
+		}
 		return cmd.Scan(value)
 	}
 
