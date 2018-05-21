@@ -12,6 +12,8 @@ type Richer interface {
 	QueryString(i interface{}) StringQuerySeter
 	// 构造ZSet查询构造器
 	QueryZSet(i interface{}) ZSetQuerySeter
+	// 构造List查询构造器
+	QueryList(i interface{}) ListQuerySeter
 	// 构造Set查询构造器
 	// QuerySet(i interface{}) SetQuerySeter
 	// 构造Keys查询构造器（对符合pattern的keys执行批量操作）
@@ -113,6 +115,19 @@ type ZSetQuerySeter interface {
 	AddExpire(member interface{}, score float64, expire time.Duration) (int64, error)
 	// 从已存在的集合中移除n个成员
 	Rem(member ...interface{}) error
+}
+
+type ListQuerySeter interface {
+	QuerySeter
+	// ========= 连贯操作接口 =========
+	// 保护数据库
+	Protect(time.Duration) ListQuerySeter
+	// 重构List的方法（基于RPush）
+	SetRebuildFunc(f func(ctx context.Context) ([]interface{}, time.Duration, error)) ListQuerySeter
+	// 传入Ctx
+	WithContext(ctx context.Context) ListQuerySeter
+	// ========= 常规操作 ===========
+	ScanSlice(slc interface{}, start, stop int64) error
 }
 
 type SetQuerySeter interface {
